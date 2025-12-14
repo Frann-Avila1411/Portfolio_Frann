@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos base para transiciones suaves de color */
+body {
+  @apply transition-colors duration-300 ease-in-out;
+}
