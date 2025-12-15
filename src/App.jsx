@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Github, Linkedin, Moon, Sun, ExternalLink, Code2, Server, Layout, BookOpen } from 'lucide-react';
+import { Github, Linkedin, Moon, Sun, ExternalLink, Code2, Server, Layout, BookOpen, Database, Terminal, Cpu, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
@@ -40,6 +40,87 @@ const ProjectCard = ({ project }) => (
   </motion.div>
 );
 
+const SkillsSection = () => {
+  const skillCategories = [
+    {
+      title: "Frontend Development",
+      subtitle: "Creación de experiencias visuales",
+      icon: <Layout className="w-6 h-6 text-blue-500" />,
+      skills: [
+        { name: "React / Vite", level: "Avanzado" },
+        { name: "Tailwind CSS", level: "Avanzado" },
+        { name: "JavaScript (ES6+)", level: "Intermedio-Alto" },
+        { name: "HTML5 / CSS3", level: "Avanzado" },
+        { name: "Framer Motion", level: "Básico" }
+      ]
+    },
+    {
+      title: "Backend & Herramientas",
+      subtitle: "Lógica de servidor y bases de datos",
+      icon: <Server className="w-6 h-6 text-green-500" />,
+      skills: [
+        { name: "Python", level: "Intermedio" },
+        { name: "Django / DRF", level: "Intermedio" },
+        { name: "PostgreSQL", level: "Intermedio" },
+        { name: "Git / GitHub", level: "Intermedio" },
+        { name: "Docker", level: "Nociones" }
+      ]
+    }
+  ];
+
+  return (
+    <section className="py-20 bg-white dark:bg-gray-800/50 transition-colors duration-300">
+      <div className="max-w-6xl mx-auto px-4">
+        <h3 className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white">
+          Mis Habilidades Técnicas
+        </h3>
+        
+        <div className="grid md:grid-cols-2 gap-8">
+          {skillCategories.map((category, idx) => (
+            <motion.div 
+              key={idx}
+              initial={{ opacity: 0, x: idx === 0 ? -20 : 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <div className="flex items-center gap-4 mb-8">
+                <div className="p-3 bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
+                  {category.icon}
+                </div>
+                <div>
+                  <h4 className="text-xl font-bold text-gray-900 dark:text-white">{category.title}</h4>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{category.subtitle}</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                {category.skills.map((skill, sIdx) => (
+                  <div key={sIdx}>
+                    <div className="flex justify-between mb-1">
+                      <span className="font-medium text-gray-700 dark:text-gray-300">{skill.name}</span>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">{skill.level}</span>
+                    </div>
+                    {/* Barra de progreso decorativa */}
+                    <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                      <motion.div 
+                        initial={{ width: 0 }}
+                        whileInView={{ width: skill.level === 'Avanzado' ? '90%' : skill.level === 'Intermedio' ? '65%' : skill.level === 'Intermedio-Alto' ? '75%' : '40%' }}
+                        transition={{ duration: 1, delay: 0.2 }}
+                        className={`h-full rounded-full ${idx === 0 ? 'bg-primary-500' : 'bg-emerald-500'}`}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 // Componente de la Página Principal (Home)
 const Home = ({ theme, toggleTheme, projects }) => (
   <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
@@ -100,6 +181,10 @@ const Home = ({ theme, toggleTheme, projects }) => (
           </div>
       </div>
 
+      {/* --- nueva sección de para las habilidades --- */}
+      <SkillsSection />
+      {/* -------------------------------------- */}
+
       {/* Proyectos */}
       <div className="mt-20">
         <h3 className="text-3xl font-bold mb-10 text-center">Proyectos Destacados</h3>
@@ -150,7 +235,7 @@ function App() {
     const projects = [
         {
             title: "Sistema Bibliotecario Ionosfera",
-            desc: "Sistema integral web y móvil para gestión bibliotecaria de una ONG ambientalista. Arquitectura escalable y moderna. Demuestra tu conocimiento en Full Stack.",
+            desc: "Sistema integral web y móvil para gestión bibliotecaria de una ONG ambientalista. Arquitectura escalable y moderna.",
             tags: ["Django REST", "React", "React Native", "PostgreSQL", "Tailwind"],
             icon: <BookOpen className="w-6 h-6" />,
             status: "En desarrollo",
@@ -158,7 +243,7 @@ function App() {
         },
         {
             title: "Música y Emociones",
-            desc: "Blog personal interactivo explorando la psicología de la música. Diseño responsive centrado en la experiencia de lectura. Demuestra tu base en Front.",
+            desc: "Blog personal interactivo explorando la psicología de la música. Diseño responsive centrado en la experiencia de lectura.",
             tags: ["HTML", "CSS", "Bootstrap", "JavaScript"],
             icon: <Layout className="w-6 h-6" />,
             status: "Finalizado",
