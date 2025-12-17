@@ -121,6 +121,52 @@ const SkillsSection = () => {
     </section>
   );
 };
+
+const Footer = () => {
+  return (
+    <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-12 transition-colors duration-300">
+      <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+        
+        {/* Identidad */}
+        <div className="text-center md:text-left">
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent mb-2">
+            Franklin Avila
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400 text-sm">
+            Frontend Developer & Backend Enthusiast
+          </p>
+        </div>
+
+        {/* Contacto Directo */}
+        <div className="flex flex-col items-center md:items-end gap-4">
+          <a 
+            href="mailto:frann2022gonzalez@gmail.com" // email para que me contacten
+            className="inline-flex items-center gap-2 px-6 py-2 bg-primary-50 text-primary-700 dark:bg-primary-900/20 dark:text-primary-300 rounded-full font-medium hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-colors"
+          >
+             📧 Contáctame por correo
+          </a>
+          
+          <div className="flex gap-4 text-gray-500 dark:text-gray-400">
+            <a href="https://github.com/Frann-Avila1411" target="_blank" rel="noreferrer" className="hover:text-primary-500 transition-colors">
+              <Github size={20} />
+            </a>
+            <a href="https://linkedin.com/in/franklinavila/" target="_blank" rel="noreferrer" className="hover:text-primary-500 transition-colors">
+              <Linkedin size={20} />
+            </a>
+          </div>
+        </div>
+
+      </div>
+      
+      <div className="text-center mt-12 pt-8 border-t border-gray-100 dark:border-gray-800">
+        <p className="text-gray-400 text-sm">
+          © {new Date().getFullYear()} Franklin Avila. Hecho con React & Tailwind.
+        </p>
+      </div>
+    </footer>
+  );
+};
+
 // Componente de la Página Principal (Home)
 const Home = ({ theme, toggleTheme, projects }) => (
   <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
@@ -196,6 +242,9 @@ const Home = ({ theme, toggleTheme, projects }) => (
         </div>
       </div>
     </main>
+
+    {/* footer */}
+    <Footer />
   </div>
 );
 
