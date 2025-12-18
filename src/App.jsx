@@ -30,7 +30,7 @@ const Navbar = ({ theme, toggleTheme }) => (
     <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
       {/* Logo */}
       <a href="#inicio" className="text-2xl font-bold text-light-text-main dark:text-white tracking-wider hover:text-primary-500 dark:hover:text-primary-400 transition-colors">
-        Franklin<span className="text-primary-500">.</span>Dev
+        Frann<span className="text-primary-500">.</span>Dev
       </a>
 
       <div className="flex items-center gap-8">
@@ -360,7 +360,7 @@ const Footer = () => {
 
           {/* Marca */}
           <a href="#inicio" className="text-xl font-bold text-light-text-main dark:text-white tracking-wider flex items-center gap-2">
-            Franklin<span className="text-primary-500">.</span>Dev
+            Frann<span className="text-primary-500">.</span>Dev
           </a>
 
           {/* Texto Legal */}
