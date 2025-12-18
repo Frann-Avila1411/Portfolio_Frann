@@ -1,16 +1,56 @@
-# React + Vite
+# Franklin Avila's Personal Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the repository for my personal portfolio website, designed to showcase my skills, educational background, and projects as a software engineering student. The portfolio is built with modern web technologies, featuring a clean, responsive design with light and dark modes.
 
-Currently, two official plugins are available:
+##  Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*   **Responsive Design:** Fully responsive layout that looks great on all devices, from mobile phones to desktops.
+*   **Light & Dark Mode:** A theme switcher to toggle between light and dark modes for user comfort.
+*   **Dynamic Text Animation:** An eye-catching typing animation in the hero section to introduce my roles.
+*   **Interactive UI:** Smooth animations and transitions using Framer Motion.
+*   **Project Showcase:** A dedicated section to display my featured projects with descriptions, tags, and links.
+*   **Skills & Education:** Sections that highlight my technical skills and academic journey.
 
-## React Compiler
+##  Technologies Used
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   **Frontend:** React, Vite, Tailwind CSS
+*   **Animations:** Framer Motion, React Type Animation
+*   **Icons:** Lucide React
+*   **Linting:** ESLint
 
-## Expanding the ESLint configuration
+##  Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+To get a local copy up and running, follow these simple steps.
+
+### Prerequisites
+
+*   Node.js (v18 or later recommended)
+*   npm or yarn
+
+### Installation
+
+1.  Clone the repo
+    ```sh
+    git clone https://github.com/Frann-Avila1411/portfolio-franklin.git
+    ```
+2.  Navigate to the project directory
+    ```sh
+    cd portfolio-franklin
+    ```
+3.  Install NPM packages
+    ```sh
+    npm install
+    ```
+4.  Start the development server
+    ```sh
+    npm run dev
+    ```
+
+The application will be available at `http://localhost:5173`.
+
+##  Contact
+
+*   **Franklin Avila**
+*   **Email:** [frann2022gonzalez@gmail.com](mailto:frann2022gonzalez@gmail.com)
+*   **LinkedIn:** [linkedin.com/in/franklin-avila-dev](https://www.linkedin.com/in/franklin-avila-3b5507352/)
+*   **GitHub:** [github.com/Frann-Avila1411](https://github.com/Frann-Avila1411)

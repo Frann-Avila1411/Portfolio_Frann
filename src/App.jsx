@@ -1,79 +1,207 @@
 import { useState, useEffect } from 'react';
-import { Github, Linkedin, Moon, Sun, ExternalLink, Code2, Server, Layout, BookOpen, Database, Terminal, Cpu, Globe, ArrowLeft, GraduationCap } from 'lucide-react';
+import { Github, Linkedin, ExternalLink, Code2, Server, Layout, BookOpen, GraduationCap, ArrowLeft, CheckCircle, Mail, Terminal, Database, Cpu, Globe, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { TypeAnimation } from 'react-type-animation';
 
-// Componente para la Tarjeta de Proyecto
-const ProjectCard = ({ project }) => (
-  <motion.div
-    whileHover={{ y: -5 }}
-    className="group relative bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-gray-700 h-full flex flex-col justify-between overflow-hidden"
-  >
-    {/* Efecto de borde degradado al hacer hover (Toque Premium) */}
-    <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary-500/20 rounded-2xl transition-colors duration-300 pointer-events-none"></div>
+// --- datos ---
+const projects = [
+  {
+    title: "Sistema Bibliotecario Ionosfera",
+    desc: "Sistema integral web y móvil para gestión bibliotecaria de una ONG ambientalista. Arquitectura escalable y moderna.",
+    tags: ["Django REST", "React", "React Native", "PostgreSQL", "Tailwind"],
+    icon: <BookOpen className="w-8 h-8 text-primary-500" />,
+    status: "En desarrollo",
+    link: null
+  },
+  {
+    title: "Música y Emociones",
+    desc: "Blog personal interactivo explorando la psicología de la música. Diseño responsive centrado en la experiencia de lectura.",
+    tags: ["HTML", "CSS", "Bootstrap", "JavaScript"],
+    icon: <Layout className="w-8 h-8 text-primary-500" />,
+    status: "Finalizado",
+    link: "https://musica-y-emociones.netlify.app/"
+  }
+];
 
-    <div>
-      <div className="flex justify-between items-start mb-6">
-        {/* Icono con fondo degradado */}
-        <div className="p-3 bg-gradient-to-br from-primary-500 to-blue-600 rounded-xl shadow-lg shadow-primary-500/20">
-          {project.icon}
+// --- rediseño del modo claro y oscuro ---
+
+const Navbar = ({ theme, toggleTheme }) => (
+  <nav className="fixed top-0 left-0 right-0 z-50 py-4 bg-light-bg/80 dark:bg-dark-bg/80 backdrop-blur-md transition-all duration-300 border-b border-gray-200 dark:border-transparent shadow-sm dark:shadow-none">
+    <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
+      {/* Logo */}
+      <a href="#inicio" className="text-2xl font-bold text-light-text-main dark:text-white tracking-wider hover:text-primary-500 dark:hover:text-primary-400 transition-colors">
+        Franklin<span className="text-primary-500">.</span>Dev
+      </a>
+
+      <div className="flex items-center gap-8">
+        {/* Enlaces (Desktop) */}
+        <div className="hidden md:flex items-center gap-8 uppercase text-sm font-bold tracking-widest">
+          <a href="#habilidades" className="text-light-text-muted dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Skills</a>
+          <a href="#formacion" className="text-light-text-muted dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Formación</a>
+          <a href="#proyectos" className="text-light-text-muted dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Proyectos</a>
+          <a href="#contacto" className="text-light-text-muted dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">Contacto</a>
         </div>
 
-        {/* Badge de Estado */}
-        {project.status === "En desarrollo" ? (
-          <span className="px-3 py-1 text-xs font-semibold bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 rounded-full border border-yellow-200 dark:border-yellow-800">
-            En desarrollo
-          </span>
-        ) : (
-          <span className="px-3 py-1 text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 rounded-full border border-emerald-200 dark:border-emerald-800">
-            Completado
-          </span>
-        )}
-      </div>
-
-      <h4 className="text-2xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-        {project.title}
-      </h4>
-
-      <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
-        {project.desc}
-      </p>
-
-      <div className="flex flex-wrap gap-2 mb-8">
-        {project.tags.map(tag => (
-          <span key={tag} className="px-3 py-1 text-xs font-medium bg-gray-50 dark:bg-gray-700/50 text-gray-600 dark:text-gray-300 rounded-lg border border-gray-100 dark:border-gray-700">
-            {tag}
-          </span>
-        ))}
-      </div>
-    </div>
-
-    {/* Lógica de Botones */}
-    <div className="pt-6 border-t border-gray-100 dark:border-gray-700">
-      {project.link ? (
-        <a
-          href={project.link}
-          target="_blank"
-          rel="noreferrer"
-          className="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 font-bold hover:gap-3 transition-all group/link"
+        {/* Botón de Tema*/}
+        <button
+          onClick={toggleTheme}
+          className="p-2 rounded-full bg-gray-200 dark:bg-dark-card text-light-text-muted dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-[#3E3E42] transition-all hover:scale-110 hover:rotate-12"
         >
-          Visitar Sitio Web
-          <ExternalLink size={18} className="group-hover/link:-translate-y-0.5 transition-transform" />
-        </a>
-      ) : (
-        <div className="flex items-center gap-2 text-gray-400 text-sm italic">
-          <Code2 size={16} /> Código en desarrollo privado
-        </div>
-      )}
+          {theme === 'dark' ? <Sun size={20} className="text-yellow-500" /> : <Moon size={20} className="text-primary-600" />}
+        </button>
+      </div>
     </div>
-  </motion.div>
+  </nav>
 );
 
+// Hero Section diseño de dos columnas con CSS Grid
+const HeroSection = () => {
+  return (
+    <section id="inicio" className="relative min-h-screen flex flex-col justify-center pt-24 pb-32 px-4 overflow-hidden bg-light-bg dark:bg-dark-bg transition-colors duration-300">
+
+      {/* Decoración de fondo sutil */}
+      <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-primary-500/10 blur-[120px] rounded-full -z-10"></div>
+      <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-primary-500/10 blur-[120px] rounded-full -z-10"></div>
+
+      <div className="max-w-6xl mx-auto w-full">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="grid md:grid-cols-12 gap-12 items-center"
+        >
+
+          {/* foto de perfil*/}
+          <div className="md:col-span-5 flex justify-center md:justify-end order-1 md:order-none">
+            {/* Marco de ventana para la foto */}
+            <div className="w-full max-w-md bg-gray-200 dark:bg-[#2D2D2E] p-1 rounded-lg shadow-2xl transition-colors duration-300 group">
+              {/* Barra de título de la ventana */}
+              <div className="flex gap-2 px-4 py-3 bg-gray-300 dark:bg-[#3E3E42] rounded-t-lg transition-colors duration-300">
+                <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                <div className="w-3 h-3 rounded-full bg-green-400"></div>
+              </div>
+              {/* Contenido de la imagen */}
+              <div className="relative aspect-square bg-light-card dark:bg-dark-card rounded-b-lg overflow-hidden">
+                <div className="absolute inset-0 bg-primary-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
+                <img
+                  src="/perfil1.jpeg"
+                  alt="Foto de perfil de Franklin Avila"
+                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                  onError={(e) => { e.target.onerror = null; e.target.src = "https://via.placeholder.com/400x400?text=FA" }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* contenido de texto */}
+          <div className="md:col-span-7 text-center md:text-left flex flex-col items-center md:items-start order-2 md:order-none">
+
+            <span className="inline-block px-3 py-1 mb-6 text-sm font-bold uppercase tracking-widest text-primary-600 dark:text-primary-400 bg-primary-500/10 rounded-full">
+              ¡Bienvenido a mi portafolio!
+            </span>
+
+            <h1 className="text-5xl md:text-7xl font-bold text-light-text-main dark:text-white mb-4 uppercase tracking-tight transition-colors duration-300 leading-none">
+              Franklin Avila
+            </h1>
+
+            <div className="text-2xl md:text-3xl font-light text-primary-600 dark:text-primary-400 mb-8 h-12 uppercase tracking-widest">
+              <TypeAnimation
+                sequence={[
+                  'Frontend Developer', 2500,
+                  'Backend Developer en Proceso', 2500,
+                  'Ing. de Software en Formación', 2500,
+                  'Autodidacta y Curioso', 2500,
+                ]}
+                wrapper="span" speed={50} repeat={Infinity}
+              />
+            </div>
+
+            {/* Descripción */}
+            <div className="bg-gray-200 dark:bg-[#2D2D2E] p-1 rounded-lg shadow-xl w-full mb-8 text-left transition-colors duration-300">
+              {/* Barra de título de la ventana */}
+              <div className="flex gap-2 px-4 py-3 bg-gray-300 dark:bg-[#3E3E42] rounded-t-lg transition-colors duration-300">
+                <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+                <div className="w-3 h-3 rounded-full bg-green-400"></div>
+              </div>
+              {/* Contenido del texto */}
+              <div className="p-6 md:p-8 bg-light-card dark:bg-dark-card rounded-b-lg transition-colors duration-300">
+                <p className="text-light-text-muted dark:text-gray-300 leading-relaxed text-lg">
+                  <span className="text-primary-600 dark:text-primary-400 font-bold">¡Hola!</span> Soy estudiante de cuarto año de Ingeniería en Desarrollo de Software, enfocado en crear <strong className="text-light-text-main dark:text-white">interfaces web responsivas</strong> y funcionales, con una sólida base en <strong className="text-light-text-main dark:text-white">backend</strong> (Django/Python) para comprender el ciclo completo del desarrollo.
+                </p>
+              </div>
+            </div>
+
+            {/* Redes Sociales y CTA */}
+            <div className="flex flex-wrap gap-4 justify-center md:justify-start items-center">
+              <a href="#contacto" className="px-8 py-3 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-lg transition-colors uppercase tracking-widest shadow-lg shadow-primary-500/20">
+                Contáctame
+              </a>
+              <div className="flex gap-4 pl-4 border-l border-gray-300 dark:border-gray-700">
+                <a href="https://github.com/Frann-Avila1411" target="_blank" rel="noreferrer" className="text-light-text-muted dark:text-gray-400 hover:text-light-text-main dark:hover:text-white transition-colors hover:scale-110 transform duration-300 p-2">
+                  <Github size={28} />
+                </a>
+                <a href="https://www.linkedin.com/in/franklin-avila-dev/" target="_blank" rel="noreferrer" className="text-light-text-muted dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors hover:scale-110 transform duration-300 p-2">
+                  <Linkedin size={28} />
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+// Skills Section: Tarjetas claras en modo claro, oscuras en modo oscuro
+const SkillsSection = () => {
+  const skillCards = [
+    { icon: <Layout size={40} />, title: "Frontend", skills: "React, Tailwind, JS (ES6+), HTML5/CSS3" },
+    { icon: <Server size={40} />, title: "Backend", skills: "Python, Django/DRF, PostgreSQL" },
+    { icon: <Terminal size={40} />, title: "Herramientas", skills: "Git, GitHub, Vite, Docker (Básico)" },
+    { icon: <GraduationCap size={40} />, title: "Formación", skills: "Ing. Software (4º Año), Autodidacta" },
+  ];
+
+  return (
+    <section id="habilidades" className="py-20 px-4 bg-light-bg dark:bg-[#181819] transition-colors duration-300">
+      <div className="max-w-5xl mx-auto text-center">
+        <h3 className="text-3xl font-bold mb-16 text-light-text-main dark:text-white uppercase tracking-widest transition-colors duration-300">
+          Skills
+        </h3>
+
+        <div className="grid md:grid-cols-4 gap-6">
+          {skillCards.map((card, idx) => (
+            <motion.div
+              key={idx}
+              whileHover={{ y: -5 }}
+              className="bg-light-card dark:bg-dark-card rounded-xl p-8 shadow-md dark:shadow-lg flex flex-col items-center text-center group border-b-2 border-transparent hover:border-primary-500 transition-all duration-300"
+            >
+              <div className="text-primary-500 mb-6 group-hover:scale-110 transition-transform duration-300">
+                {card.icon}
+              </div>
+              <h4 className="text-xl font-bold text-light-text-main dark:text-white mb-4 uppercase transition-colors duration-300">{card.title}</h4>
+              <p className="text-light-text-muted dark:text-gray-400 text-sm leading-relaxed transition-colors duration-300">{card.skills}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+// Education Section
 const EducationSection = () => {
   return (
-    <section id="formacion" className="py-20 bg-gray-50 dark:bg-gray-800/30 transition-colors duration-300">
+    <section id="formacion" className="py-20 bg-light-bg dark:bg-dark-bg transition-colors duration-300 relative overflow-hidden">
+
+      {/* Decoración de fondo opcional */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent"></div>
+
       <div className="max-w-4xl mx-auto px-4">
-        <h3 className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white">
+        <h3 className="text-3xl font-bold mb-12 text-center text-light-text-main dark:text-white uppercase tracking-widest transition-colors duration-300">
           Formación Académica
         </h3>
 
@@ -82,28 +210,28 @@ const EducationSection = () => {
           {/* Item de Educación */}
           <div className="relative pl-8 md:pl-12">
             {/* Punto en la línea de tiempo */}
-            <div className="absolute -left-[11px] top-0 w-6 h-6 bg-primary-600 rounded-full border-4 border-white dark:border-gray-900"></div>
+            <div className="absolute -left-[11px] top-0 w-6 h-6 bg-primary-600 rounded-full border-4 border-light-bg dark:border-dark-bg transition-colors duration-300"></div>
 
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-              <h4 className="text-xl font-bold text-gray-900 dark:text-white">
+              <h4 className="text-xl font-bold text-light-text-main dark:text-white transition-colors duration-300">
                 Ingeniería en Desarrollo de Software
               </h4>
-              <span className="text-sm font-semibold text-primary-600 dark:text-primary-400 bg-primary-100 dark:bg-primary-900/30 px-3 py-1 rounded-full w-fit mt-2 sm:mt-0">
-                4º Año (concluído)
+              <span className="text-sm font-semibold text-primary-600 dark:text-primary-400 bg-primary-100 dark:bg-primary-900/30 px-3 py-1 rounded-full w-fit mt-2 sm:mt-0 transition-colors duration-300">
+                4º Año (Concluido)
               </span>
             </div>
 
-            <p className="text-gray-500 dark:text-gray-400 font-medium mb-4">
+            <p className="text-light-text-muted dark:text-gray-400 font-medium mb-4 transition-colors duration-300">
               Universidad de El Salvador (UES)
             </p>
 
-            <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+            <p className="text-light-text-muted dark:text-gray-300 leading-relaxed text-lg transition-colors duration-300">
               Mi formación combina la ingeniería de software tradicional con tecnologías web modernas.
               Mantengo un enfoque principal en el <strong className="text-primary-600 dark:text-primary-400">desarrollo Frontend</strong>,
               creando interfaces que no solo son funcionales, sino intuitivas y centradas en el usuario.
             </p>
-            <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg mt-3">
-              Paralelamente, fortalezco mi perfil con <strong className="text-emerald-600 dark:text-emerald-400">tecnologías Backend</strong> (APIs REST, Bases de Datos),
+            <p className="text-light-text-muted dark:text-gray-300 leading-relaxed text-lg mt-3 transition-colors duration-300">
+              Paralelamente, fortalezco mi perfil con <strong className="text-primary-600 dark:text-primary-400">tecnologías Backend</strong> (APIs REST, Bases de Datos),
               lo que me permite comprender el ciclo de vida completo del dato y facilitar una integración sólida entre el cliente y el servidor.
             </p>
           </div>
@@ -114,325 +242,141 @@ const EducationSection = () => {
   );
 };
 
-const SkillsSection = () => {
-  const skillCategories = [
-    {
-      title: "Frontend Development",
-      subtitle: "Creación de experiencias visuales",
-      icon: <Layout className="w-6 h-6 text-blue-500" />,
-      skills: [
-        { name: "React / Vite", level: "Avanzado" },
-        { name: "Tailwind CSS", level: "Avanzado" },
-        { name: "JavaScript (ES6+)", level: "Intermedio-Alto" },
-        { name: "HTML5 / CSS3", level: "Avanzado" },
-        { name: "Framer Motion", level: "Básico" }
-      ]
-    },
-    {
-      title: "Backend & Herramientas",
-      subtitle: "Lógica de servidor y bases de datos",
-      icon: <Server className="w-6 h-6 text-green-500" />,
-      skills: [
-        { name: "Python", level: "Intermedio" },
-        { name: "Django / DRF", level: "Intermedio" },
-        { name: "PostgreSQL", level: "Intermedio" },
-        { name: "Git / GitHub", level: "Intermedio" },
-        { name: "Docker", level: "Nociones" }
-      ]
-    }
-  ];
+// ProjectCard: Tarjetas adaptables
+const ProjectCard = ({ project }) => (
+  <motion.div
+    whileHover={{ y: -8 }}
+    className="bg-light-card dark:bg-dark-card rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl border border-gray-100 dark:border-[#3E3E42] flex flex-col h-full group transition-all duration-300"
+  >
+    {/* encabezado visual */}
+    <div className="h-48 relative overflow-hidden bg-gray-100 dark:bg-[#252526] flex items-center justify-center group-hover:bg-primary-50 dark:group-hover:bg-primary-900/10 transition-colors duration-500">
 
-  return (
-    <section className="py-20 bg-white dark:bg-gray-800/50 transition-colors duration-300">
-      <div className="max-w-6xl mx-auto px-4">
-        <h3 className="text-3xl font-bold mb-12 text-center text-gray-900 dark:text-white">
-          Mis Habilidades Técnicas
-        </h3>
+      {/* Fondo decorativo sutil (Gradiente) */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary-500/5 to-primary-500/10 opacity-100"></div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {skillCategories.map((category, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, x: idx === 0 ? -20 : 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="flex items-center gap-4 mb-8">
-                <div className="p-3 bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
-                  {category.icon}
-                </div>
-                <div>
-                  <h4 className="text-xl font-bold text-gray-900 dark:text-white">{category.title}</h4>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{category.subtitle}</p>
-                </div>
-              </div>
+      {/* Icono Grande (Escala al pasar el mouse) */}
+      <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-500 text-primary-500 dark:text-primary-400">
+        <div className="scale-150">
+          {project.icon}
+        </div>
+      </div>
 
-              <div className="space-y-4">
-                {category.skills.map((skill, sIdx) => (
-                  <div key={sIdx}>
-                    <div className="flex justify-between mb-1">
-                      <span className="font-medium text-gray-700 dark:text-gray-300">{skill.name}</span>
-                      <span className="text-xs text-gray-500 dark:text-gray-400">{skill.level}</span>
-                    </div>
-                    {/* Barra de progreso decorativa */}
-                    <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: skill.level === 'Avanzado' ? '90%' : skill.level === 'Intermedio' ? '65%' : skill.level === 'Intermedio-Alto' ? '75%' : '40%' }}
-                        transition={{ duration: 1, delay: 0.2 }}
-                        className={`h-full rounded-full ${idx === 0 ? 'bg-primary-500' : 'bg-emerald-500'}`}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+      {/* Badge de Estado (Posicionado sobre la imagen/header) */}
+      {project.status === "En desarrollo" && (
+        <span className="absolute top-4 right-4 px-3 py-1 text-[10px] font-bold bg-yellow-100 text-yellow-700 dark:bg-yellow-900/50 dark:text-yellow-300 rounded-full uppercase tracking-wider shadow-sm z-20">
+          En proceso
+        </span>
+      )}
+    </div>
+
+    {/* contenido */}
+    <div className="p-8 flex flex-col justify-between flex-grow bg-white dark:bg-dark-card relative">
+
+      <div>
+        <h4 className="text-2xl font-bold mb-3 text-light-text-main dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors uppercase tracking-tight">
+          {project.title}
+        </h4>
+
+        <p className="text-light-text-muted dark:text-gray-400 mb-6 text-sm leading-relaxed line-clamp-3">
+          {project.desc}
+        </p>
+
+        {/* Tags con diseño más limpio */}
+        <div className="flex flex-wrap gap-2 mb-8">
+          {project.tags.map(tag => (
+            <span key={tag} className="px-2.5 py-1 text-[10px] font-bold bg-gray-50 dark:bg-[#1E1E1F] text-gray-500 dark:text-gray-400 rounded-md border border-gray-100 dark:border-gray-700 uppercase tracking-wider">
+              {tag}
+            </span>
           ))}
         </div>
       </div>
-    </section>
-  );
-};
 
+      {/* botones de accion */}
+      <div className="pt-6 border-t border-gray-50 dark:border-gray-800">
+        {project.link ? (
+          <a href={project.link} target="_blank" rel="noreferrer" className="w-full inline-flex justify-center items-center gap-2 px-4 py-3 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-300 font-bold rounded-lg hover:bg-primary-600 hover:text-white dark:hover:bg-primary-600 transition-all uppercase tracking-widest text-xs group/btn">
+            Visitar Proyecto <ArrowLeft size={16} className="rotate-180 group-hover/btn:translate-x-1 transition-transform" />
+          </a>
+        ) : (
+          <div className="w-full inline-flex justify-center items-center gap-2 px-4 py-3 bg-gray-50 dark:bg-[#1E1E1F] text-gray-400 dark:text-gray-500 font-bold rounded-lg uppercase tracking-widest text-xs cursor-not-allowed">
+            <Code2 size={16} /> Código Privado
+          </div>
+        )}
+      </div>
+
+    </div>
+  </motion.div>
+);
+
+// Footer
 const Footer = () => {
   return (
-    <footer className="relative bg-white dark:bg-gray-900 pt-16 pb-8 overflow-hidden transition-colors duration-300">
+    <footer id="contacto" className="pt-20 pb-10 bg-light-bg dark:bg-dark-bg transition-colors duration-300">
 
-      {/* Línea decorativa superior con gradiente */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-primary-500 to-transparent opacity-60"></div>
+      {/* tarjeta flotante de contacto */}
+      <div className="max-w-4xl mx-auto px-4 mb-20">
+        <div className="bg-white dark:bg-dark-card rounded-3xl p-8 md:p-12 shadow-2xl border border-gray-100 dark:border-[#3E3E42] text-center relative overflow-hidden group transition-colors duration-300">
 
-      {/* Efecto de luz ambiental sutil en el fondo */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-primary-500/5 dark:bg-primary-500/10 rounded-full blur-3xl -z-10"></div>
+          {/* Decoración de fondo (Glow effect) */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-primary-500/5 dark:bg-primary-500/10 rounded-full blur-3xl -z-10 scale-50 group-hover:scale-100 transition-transform duration-700"></div>
 
-      <div className="max-w-6xl mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-light-text-main dark:text-white mb-6 uppercase tracking-tight">
+            ¿Tienes un proyecto en mente?
+          </h2>
 
-        {/*Sección Principal: Llamada a la acción */}
-        <div className="grid md:grid-cols-2 gap-10 items-center mb-16">
-
-          {/* Columna Izquierda: Texto persuasivo */}
-          <div className="text-center md:text-left space-y-4">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
-              ¿Listo para crear algo <span className="text-primary-600 dark:text-primary-400">increíble?</span>
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 text-lg max-w-md mx-auto md:mx-0 leading-relaxed">
-              Estoy disponible para nuevas oportunidades laborales y proyectos freelance. Hablemos sobre cómo puedo aportar valor a tu equipo.
-            </p>
-          </div>
-
-          {/* Columna Derecha: Botones de contacto y redes*/}
-          <div className="flex flex-col items-center md:items-end gap-6">
-            <a
-              href="mailto:frann2022gonzalez@gmail.com"
-              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-primary-600 text-white rounded-xl font-bold text-lg hover:bg-primary-700 transition-all shadow-lg shadow-primary-500/30 hover:-translate-y-1"
-            >
-              <span>📩 Envíame un correo</span>
-              <ArrowLeft className="rotate-180 transition-transform group-hover:translate-x-1" size={20} />
-            </a>
-
-            <div className="flex flex-col items-center md:items-end gap-3">
-              <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
-                O encuéntrame en mis redes
-              </p>
-
-              {/* --- iconos de las redes--- */}
-              <div className="flex gap-4">
-                <a
-                  href="https://github.com/Frann-Avila1411"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="p-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all"
-                  aria-label="GitHub"
-                >
-                  <Github size={22} />
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/franklin-avila-3b5507352/"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="p-2 text-gray-500 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-all"
-                  aria-label="LinkedIn"
-                >
-                  <Linkedin size={22} />
-                </a>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        {/* seccion inferior*/}
-        <div className="border-t border-gray-100 dark:border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-
-          {/* Marca Personal */}
-          <div className="flex items-center gap-2">
-            <div className="p-1.5 bg-primary-100 dark:bg-primary-900/30 rounded-lg text-primary-600">
-              <Code2 size={20} />
-            </div>
-            <span className="font-bold text-gray-900 dark:text-white text-lg">Franklin.Dev</span>
-          </div>
-
-          {/* Copyright*/}
-          <p className="text-gray-500 dark:text-gray-400 text-sm text-center md:text-right leading-relaxed">
-            © {new Date().getFullYear()} Franklin Avila.
-            <span className="block sm:inline sm:ml-1">Construido con buenas prácticas, React y Tailwind.</span>
+          <p className="text-light-text-muted dark:text-gray-400 text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
+            Actualmente estoy disponible para nuevas oportunidades laborales y colaboraciones.
+            Si buscas un desarrollador comprometido con la calidad, ¡hablemos!
           </p>
 
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+            {/* Botón Principal */}
+            <a
+              href="mailto:frann2022gonzalez@gmail.com"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-xl transition-all shadow-lg shadow-primary-500/30 hover:-translate-y-1 uppercase tracking-widest text-sm"
+            >
+              <Mail size={20} /> Enviar Correo
+            </a>
+
+            {/* Separador visual en Desktop */}
+            <span className="hidden md:block text-gray-300 dark:text-gray-600">|</span>
+
+            {/* Redes Sociales (Iconos grandes) */}
+            <div className="flex gap-4">
+              <a href="https://github.com/Frann-Avila1411" target="_blank" rel="noreferrer" className="p-3 bg-gray-50 dark:bg-[#1E1E1F] text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all border border-gray-100 dark:border-gray-700">
+                <Github size={24} />
+              </a>
+              <a href="https://www.linkedin.com/in/franklin-avila-dev/" target="_blank" rel="noreferrer" className="p-3 bg-gray-50 dark:bg-[#1E1E1F] text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all border border-gray-100 dark:border-gray-700">
+                <Linkedin size={24} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Copyright */}
+      <div className="border-t border-gray-200 dark:border-[#3E3E42] pt-8">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+
+          {/* Marca */}
+          <a href="#inicio" className="text-xl font-bold text-light-text-main dark:text-white tracking-wider flex items-center gap-2">
+            Franklin<span className="text-primary-500">.</span>Dev
+          </a>
+
+          {/* Texto Legal */}
+          <p className="text-light-text-muted dark:text-gray-500 text-sm uppercase tracking-wider text-center md:text-right">
+            © {new Date().getFullYear()} Franklin Avila <br className="md:hidden" />
+            Hecho con <span className="text-primary-500">React</span> & Tailwind.
+          </p>
         </div>
       </div>
     </footer>
   );
 };
 
-// Componente de la Página Principal (Home)
-const Home = ({ theme, toggleTheme, projects }) => (
-  <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors duration-300">
-
-    {/* Navbar */}
-    <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex justify-between items-center h-24">
-
-          {/* Logo / Nombre */}
-          <a href="#inicio" className="group">
-            <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-              Franklin<span className="text-primary-600">.Dev</span>
-            </h1>
-            <div className="h-1 w-0 bg-primary-600 group-hover:w-full transition-all duration-300 rounded-full"></div>
-          </a>
-
-          {/* enlaces de navegación */}
-          {/* Hidden en movil, Flex en pantallas medianas en adelante */}
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#habilidades" className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Habilidades</a>
-            <a href="#formacion" className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Formación</a>
-            <a href="#proyectos" className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Proyectos</a>
-          </div>
-
-          {/* Botón de Tema */}
-          <button
-            onClick={toggleTheme}
-            className="p-3 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all hover:scale-110"
-          >
-            {theme === 'dark' ? <Sun size={24} className="text-yellow-400" /> : <Moon size={24} className="text-primary-600" />}
-          </button>
-        </div>
-      </div>
-    </nav>
-
-    {/* Hero Section */}
-    <main id='inicio' className="max-w-6xl mx-auto px-4 pt-32 pb-20">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 max-w-5xl mx-auto"
-      >
-        {/* foto personal a la izquierda */}
-        <div className="relative shrink-0 group">
-          {/* Efecto de brillo trasero */}
-          <div className="absolute -inset-1 bg-gradient-to-tr from-primary-600 to-blue-300 rounded-full blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
-
-          {/* Contenedor de la imagen */}
-          <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden border-4 border-white dark:border-gray-800 shadow-2xl">
-            <img
-              src="/perfil.jpeg"
-              alt="Franklin Avila"
-              className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-105"
-              onError={(e) => { e.target.onerror = null; e.target.src = "https://via.placeholder.com/250?text=FA" }}
-            />
-          </div>
-        </div>
-
-        {/* Texto a la derecha en PC, centrado en movil */}
-        <div className="text-center md:text-left space-y-6 max-w-2xl">
-
-          {/* Etiqueta pequeña */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-sm font-medium border border-primary-200 dark:border-primary-800 mx-auto md:mx-0">
-            <Code2 size={16} /> Desarrollador Frontend & Backend Enthusiast
-          </div>
-
-          {/* Nombre grande */}
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Franklin Avila
-          </h1>
-
-          {/* descripción optimizada con negritas*/}
-          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
-            Experiencia práctica en la creación de <strong className="text-primary-600 dark:text-primary-400 font-semibold">interfaces web responsivas</strong>,
-            consumo de APIs REST y desarrollo de aplicaciones web modernas.
-            <br className="hidden md:block" /> {/* Salto de línea solo en PC para estética */}
-            <span className="block mt-2">
-              Cuento con formación y práctica continua en <strong className="text-primary-600 dark:text-primary-400 font-semibold">backend</strong>,
-              lo que me permite comprender el flujo completo de una aplicación y facilitar una integración eficiente.
-            </span>
-          </p>
-
-          {/* Botones alineados a la izquierda en PC */}
-          <div className="flex flex-col sm:flex-row gap-4 pt-2 justify-center md:justify-start">
-            <a href="https://github.com/Frann-Avila1411" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-bold hover:opacity-90 transition-all hover:-translate-y-1">
-              <Github size={20} /> GitHub
-            </a>
-            <a href="https://www.linkedin.com/in/franklin-avila-3b5507352/" target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 px-6 py-3 bg-primary-600 text-white rounded-lg font-bold hover:bg-primary-700 transition-all hover:-translate-y-1 shadow-lg shadow-primary-500/20">
-              <Linkedin size={20} /> LinkedIn
-            </a>
-          </div>
-
-        </div>
-      </motion.div>
-
-      {/* Tech Stack Preview */}
-      <div className="mt-20 py-10 border-y border-gray-200 dark:border-gray-800">
-        <p className="text-center text-sm font-semibold text-gray-500 uppercase tracking-wider mb-6">Stack Principal</p>
-        <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-          <span className="text-xl font-bold flex items-center gap-2"><Code2 /> React</span>
-          <span className="text-xl font-bold flex items-center gap-2"><Server /> Django</span>
-          <span className="text-xl font-bold flex items-center gap-2"><Layout /> Tailwind</span>
-          <span className="text-xl font-bold flex items-center gap-2"><Server /> PostgreSQL</span>        </div>
-      </div>
-
-      {/* --- nueva sección de para las habilidades --- */}
-      <div id="habilidades"><SkillsSection /> </div>
-      {/* -------------------------------------- */}
-
-      {/* seccion de educación */}
-      <EducationSection />
-
-      {/* Proyectos */}
-      <div id="proyectos" className="mt-20">
-        <h3 className="text-3xl font-bold mb-10 text-center">Proyectos Destacados</h3>
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Mapeo de proyectos usando el componente ProjectCard */}
-          {projects.map((project, index) => (
-            <ProjectCard key={index} project={project} />
-          ))}
-        </div>
-      </div>
-    </main>
-
-    {/* footer */}
-    <Footer />
-  </div>
-);
-
-// Componente para la página de Detalles del Proyecto (Placeholder)
-const ProjectDetail = () => (
-  <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 p-10">
-    <div className="text-center">
-      <h1 className="text-4xl font-bold text-primary-600 dark:text-primary-400 mb-4">¡Página en Construcción!</h1>
-      <p className="text-lg mb-8">Aquí mostraremos capturas de pantalla, diagramas de arquitectura (Back-end) y el código de este proyecto.</p>
-      <Link to="/" className="inline-flex items-center px-6 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors">
-        Volver al inicio
-      </Link>
-    </div>
-  </div>
-);
-
-// Componente Principal de la Aplicación
 function App() {
-  // Lógica de tema (Dark/Light Mode)
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  // Lógica de estado para el tema
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -448,37 +392,33 @@ function App() {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
 
-  // Datos del portafolio
-  const projects = [
-    {
-      title: "Sistema Bibliotecario Ionosfera",
-      desc: "Sistema integral web y móvil para gestión bibliotecaria de una ONG ambientalista. Arquitectura escalable y moderna.",
-      tags: ["Django REST", "React", "React Native", "PostgreSQL", "Tailwind"],
-      icon: <BookOpen className="w-6 h-6 text-white" />,
-      status: "En desarrollo",
-      // Sin enlace porque está en proceso
-      link: null
-    },
-    {
-      title: "Música y Emociones",
-      desc: "Blog personal interactivo explorando la psicología de la música. Diseño responsive centrado en la experiencia de lectura.",
-      tags: ["HTML", "CSS", "Bootstrap", "JavaScript"],
-      icon: <Layout className="w-6 h-6 text-white" />,
-      status: "Finalizado",
-      link: "https://musica-y-emociones.netlify.app/"
-    }
-  ];
-
   return (
-    <Router>
-      <Routes>
-        {/* Ruta de la Página Principal */}
-        <Route path="/" element={<Home theme={theme} toggleTheme={toggleTheme} projects={projects} />} />
+    <div className="min-h-screen bg-light-bg dark:bg-dark-bg text-light-text-main dark:text-gray-300 font-sans selection:bg-primary-500/30 selection:text-white transition-colors duration-300">
+      <Navbar theme={theme} toggleTheme={toggleTheme} />
 
-        {/* Rutas de Detalles de Proyecto */}
-        <Route path="/project/:slug" element={<ProjectDetail />} />
-      </Routes>
-    </Router>
+      <main>
+        <HeroSection />
+
+        <SkillsSection />
+
+        <EducationSection />
+
+        <section id="proyectos" className="py-20 px-4 bg-light-bg dark:bg-[#181819] transition-colors duration-300">
+          <div className="max-w-5xl mx-auto">
+            <h3 className="text-3xl font-bold mb-16 text-center text-light-text-main dark:text-white uppercase tracking-widest transition-colors duration-300">
+              Proyectos Destacados
+            </h3>
+            <div className="grid md:grid-cols-2 gap-8">
+              {projects.map((project, index) => (
+                <ProjectCard key={index} project={project} />
+              ))}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+    </div>
   );
 }
 
