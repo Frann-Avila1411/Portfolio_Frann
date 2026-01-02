@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Github, Linkedin, ExternalLink, Code2, Server, Layout, BookOpen, GraduationCap, ArrowLeft, CheckCircle, Mail, Terminal, Database, Cpu, Globe, Sun, Moon } from 'lucide-react';
+import { Github, Linkedin, ExternalLink, Code2, Server, Layout, BookOpen, GraduationCap, ArrowLeft, CheckCircle, Mail, Terminal, Database, Cpu, Globe, Share2, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
 
@@ -20,6 +20,15 @@ const projects = [
     icon: <Layout className="w-8 h-8 text-primary-500" />,
     status: "Finalizado",
     link: "https://musica-y-emociones.netlify.app/"
+  },
+  {
+    title: "SHAREFLOW",
+    subtitle: "P2P File Transfer App",
+    desc: "Aplicación web de transferencia de archivos en tiempo real diseñada para conectar ecosistemas incompatibles (iOS/Android). Utiliza WebRTC para crear túneles de datos directos y privados sin almacenamiento en servidor, garantizando máxima velocidad y seguridad.",
+    tags: ["REACT", "DJANGO", "CHANNELS", "WEBRTC", "TAILWIND", "WEBSOCKETS"],
+    icon: <Share2 className="w-8 h-8 text-primary-500" />,
+    status: "Finalizado",
+    link: "https://share-app-devfran.vercel.app/"
   }
 ];
 
@@ -277,7 +286,13 @@ const ProjectCard = ({ project }) => (
           {project.title}
         </h4>
 
-        <p className="text-light-text-muted dark:text-gray-400 mb-6 text-sm leading-relaxed line-clamp-3">
+        {project.subtitle && (
+          <p className="text-primary-600 dark:text-primary-400 font-bold uppercase tracking-widest text-[11px] mb-3">
+            {project.subtitle}
+          </p>
+        )}
+
+        <p className="text-light-text-muted dark:text-gray-400 mb-6 text-sm leading-relaxed">
           {project.desc}
         </p>
 
