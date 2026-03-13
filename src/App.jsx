@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Github, Linkedin, ExternalLink, Code2, Server, Layout, BookOpen, GraduationCap, ArrowLeft, CheckCircle, Mail, Terminal, Database, Cpu, Globe, Share2, Sun, Moon } from 'lucide-react';
+import { Github, Linkedin, ExternalLink, Code2, Server, Layout, BookOpen, GraduationCap, ArrowLeft, CheckCircle, Mail, Terminal, Database, Cpu, Globe, Share2, Sun, Moon, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
 
@@ -118,7 +118,7 @@ const HeroSection = () => {
               <TypeAnimation
                 sequence={[
                   'Frontend Developer', 2500,
-                  'Backend Developer en Proceso', 2500,
+                  'Backend Developer', 2500,
                   'Ing. de Software en Formación', 2500,
                   'Autodidacta y Curioso', 2500,
                 ]}
@@ -137,7 +137,10 @@ const HeroSection = () => {
               {/* Contenido del texto */}
               <div className="p-6 md:p-8 bg-light-card dark:bg-dark-card rounded-b-lg transition-colors duration-300">
                 <p className="text-light-text-muted dark:text-gray-300 leading-relaxed text-lg">
-                  <span className="text-primary-600 dark:text-primary-400 font-bold">¡Hola!</span> Soy estudiante de cuarto año de Ingeniería en Desarrollo de Software, enfocado en crear <strong className="text-light-text-main dark:text-white">interfaces web responsivas</strong> y funcionales, con una sólida base en <strong className="text-light-text-main dark:text-white">backend</strong> (Django/Python) para comprender el ciclo completo del desarrollo.
+                  <span className="text-primary-600 dark:text-primary-400 font-bold">¡Hola!</span> Soy estudiante de quinto año de Ingeniería en Desarrollo de Software, enfocado en crear
+                  <strong className="text-light-text-main dark:text-white"> interfaces web responsivas </strong>
+                  y funcionales, con una sólida base en <strong className="text-light-text-main dark:text-white">
+                    backend</strong> (Django/Python) para comprender el ciclo completo del desarrollo.
                 </p>
               </div>
             </div>
@@ -146,6 +149,14 @@ const HeroSection = () => {
             <div className="flex flex-wrap gap-4 justify-center md:justify-start items-center">
               <a href="#contacto" className="px-8 py-3 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-lg transition-colors uppercase tracking-widest shadow-lg shadow-primary-500/20">
                 Contáctame
+              </a>
+              <a
+                href="/FranklinAvila-CV.pdf"
+                download
+                className="flex items-center gap-2 px-6 py-3 border-2 border-primary-600 dark:border-primary-400 text-primary-600 dark:text-primary-400 hover:bg-primary-600 dark:hover:bg-primary-400 hover:text-white dark:hover:text-dark-bg font-bold rounded-lg transition-all uppercase tracking-widest"
+              >
+                <Download size={18} />
+                Descargar CV
               </a>
               <div className="flex gap-4 pl-4 border-l border-gray-300 dark:border-gray-700">
                 <a href="https://github.com/Frann-Avila1411" target="_blank" rel="noreferrer" className="text-light-text-muted dark:text-gray-400 hover:text-light-text-main dark:hover:text-white transition-colors hover:scale-110 transform duration-300 p-2">
@@ -168,10 +179,10 @@ const HeroSection = () => {
 // Skills Section: Tarjetas claras en modo claro, oscuras en modo oscuro
 const SkillsSection = () => {
   const skillCards = [
-    { icon: <Layout size={40} />, title: "Frontend", skills: "React, Tailwind, JS (ES6+), HTML5/CSS3" },
-    { icon: <Server size={40} />, title: "Backend", skills: "Python, Django/DRF, PostgreSQL" },
-    { icon: <Terminal size={40} />, title: "Herramientas", skills: "Git, GitHub, Vite, Docker (Básico)" },
-    { icon: <GraduationCap size={40} />, title: "Formación", skills: "Ing. Software (4º Año), Autodidacta" },
+    { icon: <Layout size={40} />, title: "Frontend", skills: "React, Tailwind, JS (ES6+), TypeScript, Next.js, HTML5/CSS3" },
+    { icon: <Server size={40} />, title: "Backend", skills: "Python, Django/DRF, Node.js, PostgreSQL" },
+    { icon: <Terminal size={40} />, title: "Herramientas", skills: "Git, GitHub, Vite, Docker, Jest, Cypress, CI/CD" },
+    { icon: <GraduationCap size={40} />, title: "Formación", skills: "Ing. Software (5º Año), Autodidacta" },
   ];
 
   return (
@@ -226,7 +237,7 @@ const EducationSection = () => {
                 Ingeniería en Desarrollo de Software
               </h4>
               <span className="text-sm font-semibold text-primary-600 dark:text-primary-400 bg-primary-100 dark:bg-primary-900/30 px-3 py-1 rounded-full w-fit mt-2 sm:mt-0 transition-colors duration-300">
-                4º Año (Concluido)
+                5º Año (En curso)
               </span>
             </div>
 
