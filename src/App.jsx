@@ -25,9 +25,9 @@ const projects = [
       es: 'Blog personal interactivo explorando la psicología de la música. Diseño responsive centrado en la experiencia de lectura.',
       en: 'Interactive personal blog exploring the psychology of music. A responsive design focused on the reading experience.'
     },
-    tags: ['HTML', 'CSS', 'Bootstrap', 'JavaScript'],
+    tags: ['HTML', 'CSS', 'Tailwind CSS', 'JavaScript'],
     icon: <Layout className="w-8 h-8 text-primary-500" />,
-    image: '/musica-emociones.png',
+    image: '/blog_musica&emociones.png',
     preview: {
       type: 'blog'
     },
